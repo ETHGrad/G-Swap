@@ -1,2 +1,8 @@
-name: G-swap
-
+{
+  "name": "G-swap",
+  "language": generic,
+  "os": [
+    "linux"
+  ],
+  "dist": "xenial"
+}
