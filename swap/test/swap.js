@@ -47,6 +47,19 @@ contract("Swap", ([deployer, investor]) => {
     it('allows user to purchase tokens at a fixed price', async () => {
       let investorBalance = await token.balanceOf(investor)
       assert.equal(investorBalance.toString(), tokens('100')) 
+
+      let swapBalance
+      swapBalance = await token.balanceOf(swap.address)
+      assert.equal(swapBalance.toString(), tokens('999900'))
+      swapBalance = await web3.eth.getBalance(swap.address)
+      assert.equal(swapBalance.toString(), web3.utils.toWei('1', 'Ether'))
+
+      const event = result.logs[0].args
+      assert.equal(event.account, investor)
+      assert.equal(event.token, token.address)
+      assert.equal(event.amount.toString(), tokens('100').toString())
+      assert.equal(event.rate.toString(), '100')
+      
     })
   })
 
