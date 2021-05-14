@@ -8,7 +8,7 @@ module.exports = async function(deployer) {
   const token = await Token.deployed()
 
   // deploy Swap
-  await deployer.deploy(Swap)
+  await deployer.deploy(Swap, token.address)
   const swap = await Swap.deployed()
 
 
