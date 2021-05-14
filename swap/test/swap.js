@@ -9,12 +9,12 @@ function tokens(n){
   return web3.utils.toWei(n, 'ether')
 }
 
-contract("Swap", (accounts) => {
+contract("Swap", ([deployer, investor]) => {
 
   let token, swap
   before(async () => {
     token = await Token.new()
-    swap = await Swap.new()
+    swap = await Swap.new(token.address)
     await token.transfer(swap.address, tokens('1000000'))
   })
 
@@ -34,6 +34,19 @@ contract("Swap", (accounts) => {
     it("contract has tokens", async () => {
       let balance = await token.balanceOf(swap.address)
       assert.equal(balance.toString(),tokens('1000000'))
+    })
+  })
+
+  describe('buyTokens()', async () => {
+      
+    let result
+    before(async () => {
+      result = await swap.buyTokens({ from: investor, value: web3.utils.toWei('1', 'ether')})
+    })
+
+    it('allows user to purchase tokens at a fixed price', async () => {
+      let investorBalance = await token.balanceOf(investor)
+      assert.equal(investorBalance.toString(), tokens('100')) 
     })
   })
 
