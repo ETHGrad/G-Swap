@@ -21,7 +21,7 @@ class App extends Component {
             <main role="main" className="col-lg-12 d-flex text-center">
               <div className="content mr-auto ml-auto">
                 <a
-                  href="http://www.dappuniversity.com/bootcamp"
+                  href=""
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -32,7 +32,7 @@ class App extends Component {
                 </p>
                 <a
                   className="App-link"
-                  href="http://www.dappuniversity.com/bootcamp"
+                  href=""
                   target="_blank"
                   rel="noopener noreferrer"
                 >
