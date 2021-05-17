@@ -87,6 +87,10 @@ contract("Swap", ([deployer, investor]) => {
       assert.equal(event.token, token.address)
       assert.equal(event.amount.toString(), tokens('100').toString())
       assert.equal(event.rate.toString(), '100')
+
+
+      //Failure: investor cant sell more tokens than they have
+      swait swap.sellToken(tokens('500'), {from: 'investor' }).should.be.rejected;
     })
   })
 
