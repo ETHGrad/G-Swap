@@ -63,4 +63,32 @@ contract("Swap", ([deployer, investor]) => {
     })
   })
 
+  describe('buyTokens()', async () => {
+      
+    let result
+    before(async () => {
+      await token.approve(swap.address, tokens('100'), { from: investor })
+      result = await swap.sellTokens(tokens('100'), { from: investor })
+    })
+
+    it('allows user to sell tokens at a fixed price', async () => {
+      let investorBalance = await token.balanceOf(investor)
+      assert.equal(investorBalance.toString(),tokens('0'))
+
+      let swapBalance
+      swapBalance = await token.balanceOf(swap.address)
+      assert.equal(swapBalance.toString(), tokens('1000000'))
+      swapBalance = await web3.eth.getBalance(swap.address)
+      assert.equal(swapBalance.toString(), web3.utils.toWei('0', 'Ether'))
+
+
+      const event = result.logs[0].args
+      assert.equal(event.account, investor)
+      assert.equal(event.token, token.address)
+      assert.equal(event.amount.toString(), tokens('100').toString())
+      assert.equal(event.rate.toString(), '100')
+    })
+  })
+
+
 })

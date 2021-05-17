@@ -7,7 +7,14 @@ contract Swap {
     Token public token;
     uint public rate = 100;
     
-    event tokenPurchased(
+    event tokensPurchased(
+      address account,
+      address token, 
+      uint amount,
+      uint rate
+    );
+    
+    event tokensSold(
       address account,
       address token, 
       uint amount,
@@ -22,7 +29,19 @@ contract Swap {
       uint tokenamount = msg.value * rate;
       require(token.balanceOf(address(this)) >= tokenamount);
       token.transfer(msg.sender, tokenamount);
+      emit tokensPurchased(msg.sender, address(token), tokenamount, rate);
+    }
 
-      emit tokenPurchased(msg.sender, address(token), tokenamount, rate);
+    function sellTokens(uint _amount) public {
+      //calculate the amount of ether to readeam
+      uint etherAmount = _amount / rate;
+
+      require(address(this).balance == etherAmount);
+
+      //perform sale
+      token.transferFrom(msg.sender, address(this), _amount);
+      msg.sender.transfer(etherAmount);
+
+      emit tokensSold(msg.sender, address(token), _amount, rate);
     }
 }
