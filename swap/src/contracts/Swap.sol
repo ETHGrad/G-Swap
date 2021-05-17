@@ -33,6 +33,9 @@ contract Swap {
     }
 
     function sellTokens(uint _amount) public {
+      //user cant sell more tokens than they have
+      require(token.balanceOf(msg.sender) >= _amount);
+
       //calculate the amount of ether to readeam
       uint etherAmount = _amount / rate;
 

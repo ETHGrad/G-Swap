@@ -90,7 +90,7 @@ contract("Swap", ([deployer, investor]) => {
 
 
       //Failure: investor cant sell more tokens than they have
-      swait swap.sellToken(tokens('500'), {from: 'investor' }).should.be.rejected;
+      await swap.sellTokens(tokens('500'), {from: 'investor' }).should.be.rejected;
     })
   })
 
